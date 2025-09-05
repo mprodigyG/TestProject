@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>File & Directory Browsing</title>
+</head>
+<body>
+    <h1>File & Directory Browsing</h1>
+    <table cellpadding="5" cellspacing="5" style="width:100%;">
+        <tr>
+            <th>
+                <input id="txtSearchPath" type="text" value="" placeholder="Enter directory path" />
+                <input type="button" value="Save" />
+            </th>
+            <th style="float:left;">
+                <p>
+                    Total: 
+                    <label id="lblTotalFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label id="lblTotalFolders"></label> folder(s)
+                </p>
+            </th>
+        </tr>
+    </table>
+
+    <hr />
+
+    <div>
+        <table cellpadding="5" cellspacing="5">
+            <tr>
+                <td>
+                    <input type="text" value="" placeholder="Enter folder name" />
+                </td>
+                <td>
+                    <input type="text" value="" placeholder="Enter file name" />
+                </td>
+                <td>
+                    <input type="button" value="Search Directory" />
+                </td>
+                <td>
+                    <p>
+                        Found:
+                        <label id="lblFoundFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="lblFoundFolders"></label> folder(s)
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <table cellpadding="5" cellspacing="5">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Path</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>file one</td>
+                <td>file</td>
+                <td>43K</td>
+                <td>this is a file path</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="float:right; text-align:right;">
+                    <p>
+                        Current Display:
+                        <label id="lblCurrentDisplayFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="lblCurrentDisplayFolder"></label> folder(s)
+                    </p>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
