@@ -1,25 +1,20 @@
-﻿//
-//console.log(baseUrl);
-console.log("httclient");
-    const baseUrl = window.location.origin;
-export function GetData(api, directoryPath) {
+﻿const baseUrl = window.location.origin;
 
-    //const baseUrl = baseUrl + api;
-    const params = {
-        search: 'directoryPath',
-        filter: directoryPath
-    };
-
+export async function GetData(api) {
+    // actual url being send to fetch the data
     const url = new URL(baseUrl + api);
-    url.search = new URLSearchParams(params).toString();
 
-    console.log(url);
-    //fetch(url)
-    //    .then(response => response.json())
-    //    .then(data => {
-    //        // Handle the fetched data
-    //    })
-    //    .catch(error => {
-    //        // Handle errors
-    //    });
+    // get the data from the web server and return it in JSON format
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Status: ${response.status}`);
+        }
+        const directoryInfo = await response.json();
+
+        // the return data in javascript form
+        return directoryInfo;
+    } catch (error) {
+        console.error("Error getting data: ", error);
+    }
 }

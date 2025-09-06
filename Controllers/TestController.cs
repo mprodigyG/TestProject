@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System.Web;
+using System.IO;
+using System.Linq;
+//using System.Web.Mvc; // For MVC
 
 namespace TestProject.Controllers {
     [ApiController]
@@ -17,15 +22,11 @@ namespace TestProject.Controllers {
         }
 
         [HttpGet("directoryInfo/{directoryPath}")]
-        public IActionResult DirectoryInfo(string directoryPath)
+        public IActionResult DirectoryInfo(string? directoryPath)
         {
-            string? useDirectory = _settings;
             // use the directory path from the client supplies it, otherwise use value from settings
-            if (!string.IsNullOrEmpty(directoryPath))
-            {
-                useDirectory = directoryPath;
-            }
-            useDirectory = _settings;
+            string? useDirectory = string.IsNullOrEmpty(directoryPath) == true ? _settings : directoryPath;
+
             // directory does not exists inform the client
             if (_directoryService.CheckDirectory(directoryPath))
             {
@@ -38,8 +39,32 @@ namespace TestProject.Controllers {
                 ,
                 FolderCount = _directoryService.GetFolderCount(useDirectory)
                 ,
+                directoryPath = useDirectory
+                ,
                 DirectoryInfo = _directoryService.GetDirectoryInfo(useDirectory)
             });
+        }
+
+        [HttpPost("fileUpload/{directoryPath}")]
+        public async Task<IActionResult> UploadSingleFile(string? directoryPath)
+        {
+            var uploadedFile = HttpContext.Request.Form.Files.GetFile("file");
+
+            if (uploadedFile != null && uploadedFile.Length > 0)
+            {
+                // Define the path to save the file
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", uploadedFile.FileName);
+
+                // Save the file to the server
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(stream);
+                }
+
+                return Ok($"File '{uploadedFile.FileName}' uploaded successfully.");
+            }
+
+            return BadRequest("No file uploaded or file is empty.");
         }
     }
 }

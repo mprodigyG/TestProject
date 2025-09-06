@@ -15,6 +15,6 @@
         public string? Type { get; set; }
 
         // Size in KB of the file
-        public int? Size { get; set; } = 0;
+        public double? Size { get; set; } = 0;
     }
 }

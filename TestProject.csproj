@@ -8,6 +8,15 @@
 
   <ItemGroup>
     <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\js\jquery-3.7.1.js" />
+    <None Include="wwwroot\js\jquery-ui.css" />
+    <None Include="wwwroot\js\jquery-ui.js" />
+    <None Include="wwwroot\js\jquery-ui.min.css" />
+    <None Include="wwwroot\js\jquery-ui.min.js" />
+    <None Include="wwwroot\js\jquery-ui.structure.css" />
+    <None Include="wwwroot\js\jquery-ui.structure.min.css" />
+    <None Include="wwwroot\js\jquery-ui.theme.css" />
+    <None Include="wwwroot\js\jquery-ui.theme.min.css" />
   </ItemGroup>
 
 </Project>

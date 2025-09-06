@@ -3,10 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <title>File & Directory Browsing</title>
+
+    <link href="js/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link href="js/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="js/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link href="js/jquery-ui.css" rel="stylesheet" />
+    <link href="js/jquery-ui.min.css" rel="stylesheet" />
+    <link href="js/jquery-ui.structure.css" rel="stylesheet" />
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
 </head>
 <body>
     <h1>File & Directory Browsing</h1>
-    <table cellpadding="5" cellspacing="5" style="width:100%;">
+    <table cellpadding="5" cellspacing="5" style="">
         <tr>
             <th>
                 <input id="txtSearchPath" type="text" value="" placeholder="Enter directory path" />
@@ -14,10 +25,17 @@
             </th>
             <th style="float:left;">
                 <p>
-                    Total: 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Total:
                     <label id="lblTotalFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label id="lblTotalFolders"></label> folder(s)
                 </p>
+            </th>
+            <th>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" id="uploadFile" />
+                <button id="btnUpload">Upload</button>
+                <div id="status"></div>
             </th>
         </tr>
     </table>
@@ -49,7 +67,7 @@
 
     <hr />
 
-    <table cellpadding="5" cellspacing="5">
+    <table id="tblDirectoryInfo" cellpadding="5" cellspacing="5">
         <thead>
             <tr>
                 <th>Name</th>
@@ -59,26 +77,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>file one</td>
-                <td>file</td>
-                <td>43K</td>
-                <td>this is a file path</td>
-            </tr>
+            <!--The content of the direct goes here-->
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" style="float:right; text-align:right;">
-                    <p>
-                        Current Display:
-                        <label id="lblCurrentDisplayFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label id="lblCurrentDisplayFolder"></label> folder(s)
-                    </p>
-                </td>
-            </tr>
-        </tfoot>
+  
     </table>
 
+    <hr />
+
+    <p>
+        Current Display:
+        <label id="lblCurrentDisplayFiles"></label> file(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="lblCurrentDisplayFolder"></label> folder(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label id="lblCurrentDisplaySizeKB"></label> KB (Current display file size)
+    </p>
     <script type="module" src="main.js"></script>
 </body>
 
