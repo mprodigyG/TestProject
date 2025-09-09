@@ -1,5 +1,4 @@
-﻿//import * as httpClient from './search_directory/httpClient'
-import { CopyDirectoryFile, DeleteDirectoryFile, GetData } from "./search_directory/httpClient.js"
+﻿import { CopyDirectoryFile, DeleteDirectoryFile, GetData } from "./search_directory/httpClient.js"
 
 const testApi = "/test";    // default api url
 let rootDirectoryPath = ""; // The to level directly selected at start up
@@ -15,8 +14,18 @@ function init() {
     // get the initionial set for the directory data
     initDirectoryInfo();
 
-    $("#btnSearchFileAndFolder").on("click", function () {
+    $("#btnSearchPath").on("click", function () {
+        // reload the directory info based on the new path
+        initDirectoryInfo();
+    });
 
+    $("#btnSearchFileAndFolder").on("click", function () {
+        if ($("#txtSearchFileAndFolder").val() !== '') {
+            // if the search text is not empty then reload the current directory info
+            GetFilterDirectoryInfo();
+        } else {
+            alert("Please enter a file or folder name to search");
+        }
     });
 
     $('#btnUpload').click(function () {
@@ -105,9 +114,12 @@ async function GetCurrentDirectoryInfo() {
 
 async function GetFilterDirectoryInfo() {
     // get directory and it's file and folder count
-    const directoryInfo = await GetData(`${testApi}/directoryInfo/${encodeURIComponent(currentRootDirectoryPath)}/${$("#txtSearchFileAndFolder").val()}`);
+    const directoryInfo = await GetData(`${testApi}/directoryInfo/${encodeURIComponent(rootDirectoryPath)}/${$("#txtSearchFileAndFolder").val()}`);
 
     loadDirectoryInfoTable(directoryInfo);
+
+    document.getElementById('lblFoundFiles').textContent = directoryInfo.FileCount;
+    document.getElementById('lblFoundFolders').textContent = directoryInfo.FolderCount
 }
 
 function loadDirectoryInfoTable(directoryInfo) {
@@ -141,7 +153,7 @@ function loadDirectoryInfoTable(directoryInfo) {
             name.innerHTML = directoryInfoRow.Name;
             type.innerHTML = directoryInfoRow.Type;
             size.innerHTML = directoryInfoRow.Size;
-            path.innerHTML = directoryInfoRow.Path;
+            path.innerHTML = (directoryInfoRow.Path.length > 60 ? directoryInfoRow.Path.substring(0, 59) + "..." : directoryInfoRow.Path);
 
             if (directoryInfoRow.Type === "File") {
                 fileCount++;
@@ -222,6 +234,7 @@ function uploadFile() {
             $('#status').text('File uploaded successfully: ' + response);
             setTimeout(function () {
                 $('#status').text("");
+                $('#uploadFile').val("");
             }, 3000);
 
             // reload the table data
@@ -251,6 +264,7 @@ async function copyFileSave() {
     const fileName = document.getElementById('lblFileNameCopy').textContent;
     const newFileName = document.getElementById('txtNewFileNameCopy').value;
     const result = await CopyDirectoryFile(`${testApi}/copyfile`, `${filePath}\\${fileName}`, `${filePath}\\${newFileName}`);
+    initDirectoryInfo();
     $("#dialogCopyFile").dialog("close");
 }
 
@@ -271,13 +285,14 @@ async function moveFileSave() {
         const fileName = document.getElementById('lblFileNameMove').textContent;
         const newFilePath = $("#folders").val();
         const result = await CopyDirectoryFile(`${testApi}/movefile`, `${filePath}\\${fileName}`, `${newFilePath}\\${fileName}`);
-        $("#dialogCopyFile").dialog("close");
+        initDirectoryInfo();
+        $("#dialogMoveFile").dialog("close");
     }
 }
 
 async function deleteFile(filePath) {
     const result = await DeleteDirectoryFile(`${testApi}/deletefile/${encodeURIComponent(filePath)}`);
-    console.log(result);
+    initDirectoryInfo();
 }
 
 function upToFolder() {
@@ -295,6 +310,8 @@ function upToFolder() {
     } else {
         $(".up-to-folder").hide();
     }
+    // reset filter if the folder browser is being used
+    $("#txtSearchFileAndFolder").val("");
 }
 
 function downToFolder(filePath) {
@@ -302,6 +319,7 @@ function downToFolder(filePath) {
     currentRootDirectoryPath = filePath;
     GetCurrentDirectoryInfo();
     $(".up-to-folder").show();
+    $("#txtSearchFileAndFolder").val("");
 }
  
 
