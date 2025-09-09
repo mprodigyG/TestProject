@@ -21,7 +21,7 @@
         <tr>
             <th>
                 <input id="txtSearchPath" type="text" value="" placeholder="Enter directory path" />
-                <input type="button" value="Save" />
+                <input class="ui-button" type="button" value="Save" />
             </th>
             <th style="float:left;">
                 <p>
@@ -33,8 +33,8 @@
             </th>
             <th>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="file" id="uploadFile" />
-                <button id="btnUpload">Upload</button>
+                <input type="file" id="uploadFile" class="ui-button" />
+                <button id="btnUpload" class="ui-button">Upload</button>
                 <div id="status"></div>
             </th>
         </tr>
@@ -46,13 +46,10 @@
         <table cellpadding="5" cellspacing="5">
             <tr>
                 <td>
-                    <input type="text" value="" placeholder="Enter folder name" />
+                    <input id="txtSearchFileAndFolder" style="width: 250px;" type="text" value="" placeholder="Search for a file or folder ..." />
                 </td>
                 <td>
-                    <input type="text" value="" placeholder="Enter file name" />
-                </td>
-                <td>
-                    <input type="button" value="Search Directory" />
+                    <input id="btnSearchFileAndFolder" class="ui-button" type="button" value="Search Directory" />
                 </td>
                 <td>
                     <p>
@@ -70,6 +67,11 @@
     <table id="tblDirectoryInfo" cellpadding="5" cellspacing="5">
         <thead>
             <tr>
+                <th style="text-align: right;">
+                    <button style="display: none;" class="ui-button ui-widget ui-corner-all up-to-folder">
+                        <span class="ui-icon  ui-icon-arrowreturnthick-1-w"></span> Up To ...
+                    </button>
+                </th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Size</th>
@@ -79,7 +81,7 @@
         <tbody>
             <!--The content of the direct goes here-->
         </tbody>
-  
+
     </table>
 
     <hr />
@@ -90,6 +92,32 @@
         <label id="lblCurrentDisplayFolder"></label> folder(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label id="lblCurrentDisplaySizeKB"></label> KB (Current display file size)
     </p>
+
+    <div id="dialogCopyFile" title="Copy File">
+        <h1>From</h1>
+        <p><label id="lblFilePathCopy"></label></p>
+        Copy file: <label id="lblFileNameCopy"></label>
+        <hr />
+        <h1>To</h1>
+        New file: <input type="text" id="txtNewFileNameCopy" style="width: 80%" />
+        <hr />
+        <button id="btnSaveCopy" class="ui-button">Save Changes</button>
+    </div>
+
+    <div id="dialogMoveFile" title="Move File">
+        <h1>From</h1>
+        <p><label id="lblFilePathMove"></label></p>
+        Move file: <label id="lblFileNameMove"></label>
+        <hr />
+        <h1>To</h1>
+        <div class="ui-widget">
+            <label for="folders">Folders: </label>
+            <input style="width: 80%;" id="folders">
+        </div>
+        <hr />
+        <button id="btnSaveMove" class="ui-button">Save Changes</button>
+    </div>
+
     <script type="module" src="main.js"></script>
 </body>
 

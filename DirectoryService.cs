@@ -25,13 +25,34 @@ namespace TestProject
             return directoryInfo;
         }
 
+        public IEnumerable<DirectoryInfo> GetFilterDirectoryInfo(string directoryPath, string filterValue)
+        {
+            List<DirectoryInfo> directoryInfo = new List<DirectoryInfo>();
+            string[] directories = Directory.GetDirectories(directoryPath, "*" + filterValue.Trim() + "*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(directoryPath, "*" + filterValue.Trim() + "*", SearchOption.AllDirectories);
+
+            foreach (string directory in directories)
+            {
+                directoryInfo.Add(new DirectoryInfo { Name = Path.GetFileName(directory), Type = "Folder", Size = 0, Path = Path.GetFullPath(directory) });
+            }
+
+            foreach (string file in files)
+            {
+                FileInfo fileInfo = new FileInfo(Path.GetFullPath(file));
+                long fileSizeBytes = fileInfo.Length;
+                double fileSizeKB = Math.Ceiling((double)fileSizeBytes / 1024);
+                directoryInfo.Add(new DirectoryInfo { Name = Path.GetFileName(file), Type = "File", Size = fileSizeKB, Path = Path.GetFullPath(file) });
+            }
+            return directoryInfo;
+        }
+
         public bool CheckDirectory(string path)
         {
-            if (!Directory.Exists(path))
+            if (Directory.Exists(path))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -39,9 +60,9 @@ namespace TestProject
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <returns></returns>
-        public int GetFileCount(string directoryPath)
+        public int GetFileCount(string directoryPath, string filterValue = "*.*")
         {
-            int fileCount = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories).Length;
+            int fileCount = Directory.GetFiles(directoryPath, filterValue, SearchOption.AllDirectories).Length;
             return fileCount;
         }
 
@@ -50,10 +71,17 @@ namespace TestProject
         /// </summary>
         /// <param name="directoryPath"></param>
         /// <returns></returns>
-        public int GetFolderCount(string directoryPath)
+        public int GetFolderCount(string directoryPath, string filterValue = "*")
         {
-            int folderCount = Directory.GetDirectories(directoryPath, "*", SearchOption.AllDirectories).Length;
+            int folderCount = Directory.GetDirectories(directoryPath, filterValue, SearchOption.AllDirectories).Length;
             return folderCount;
+        }
+
+        public List<string> GetDirectoryFolders(string directoryPath)
+        {
+            List<string> directoryFolders = new List<string>();
+            directoryFolders = Directory.GetDirectories(directoryPath, "*", SearchOption.AllDirectories).ToList();
+            return directoryFolders;
         }
     }
 }
